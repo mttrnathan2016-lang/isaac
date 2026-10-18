@@ -33,4 +33,4 @@ app.get('/api/checkout-session', async (req,res) => {
   try { const session = await stripe.checkout.sessions.retrieve(String(req.query.session_id)); if (session.payment_status !== 'paid') return res.status(402).json({error:'Payment is not completed.'}); const coins = Number(session.metadata?.coins); if (!prices.has(coins)) return res.status(400).json({error:'Invalid purchase.'}); res.json({coins,item:session.metadata?.item||''}); } catch { res.status(400).json({error:'Invalid checkout session.'}); }
 });
 
-app.listen(port,()=>console.log(`Wonderforge Worlds listening on ${port}`));
+app.listen(port,()=>console.log(`Starblox listening on ${port}`));
