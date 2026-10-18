@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const secret = process.env.STRIPE_SECRET_KEY;
 const stripe = secret ? new Stripe(secret) : null;
-const prices = new Map([[100, 199], [500, 699], [1200, 1299]]); // cents: $1.99, $6.99, $12.99
+const prices = new Map([[150,100],[1590,500],[10000,1000],[25000,2500],[55000,5000],[120000,10000],[400000,29000]]); // cents: $1, $5, $10, $25, $50, $100, $290
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 app.use(express.json());
