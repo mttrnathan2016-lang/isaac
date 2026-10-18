@@ -27,4 +27,9 @@ app.post('/api/create-checkout-session', async (req, res) => {
     res.json({url:session.url});
   } catch (err) { res.status(502).json({error:'Unable to start Stripe Checkout.'}); }
 });
+app.get('/api/checkout-session', async (req,res) => {
+  if (!stripe) return res.status(503).json({error:'Stripe is not configured on this server.'});
+  try { const session = await stripe.checkout.sessions.retrieve(String(req.query.session_id)); if (session.payment_status !== 'paid') return res.status(402).json({error:'Payment is not completed.'}); const coins = Number(session.metadata?.coins); if (!prices.has(coins)) return res.status(400).json({error:'Invalid purchase.'}); res.json({coins}); } catch { res.status(400).json({error:'Invalid checkout session.'}); }
+});
+
 app.listen(port,()=>console.log(`Wonderforge Worlds listening on ${port}`));
